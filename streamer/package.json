@@ -1,0 +1,9 @@
+{
+  "name": "cp-streamer",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "dependencies": {
+    "ethers": "^6.8.0",
+    "pg": "^8.11.0"
+  }
+}

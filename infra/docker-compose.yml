@@ -1,0 +1,17 @@
+version: "3.7"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: cp_postgres
+    environment:
+      POSTGRES_USER: cp
+      POSTGRES_PASSWORD: cp
+      POSTGRES_DB: checkpoint
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
