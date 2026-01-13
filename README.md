@@ -90,13 +90,20 @@ Every blockchain suffers from **mempool-level attacks**:
 | 🧠 **ML Inferences** | Real-time spam/MEV |
 | 🎯 **System Mode** | NORMAL |
 | ⏱️ **Uptime** | 9+ hours |
-| 📈 **Grafana Dashboard** | http://localhost:3000 |
 
-### Public API Endpoint
+### 🌐 Public Endpoints (Live Now!)
+
+| Endpoint | URL |
+|----------|-----|
+| **Grafana Dashboard** | https://mara-monogrammatic-shiftily.ngrok-free.dev |
+| **Dashboard API** | http://localhost:8088/api/dashboard |
+| **Prometheus Metrics** | http://localhost:9100/metrics |
+
+### Public API Example
 
 ```bash
 # Get live system metrics
-curl https://mara-monogrammatic-shiftily.ngrok-free.dev/api/dashboard
+curl https://mara-monogrammatic-shiftily.ngrok-free.dev/api/datasources
 ```
 
 Response:
