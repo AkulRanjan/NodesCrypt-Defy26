@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🛡️ NodesCrypt
+#  NodesCrypt
 
 ### AI-Driven Cryptocurrency Security Platform
 
@@ -17,27 +17,27 @@
 
 ---
 
-## 🌟 Overview
+##  Overview
 
 NodesCrypt is a cutting-edge cybersecurity platform designed to protect blockchain infrastructure through AI-powered threat detection and real-time monitoring. Our platform leverages Reinforcement Learning (RL) agents and Machine Learning models to identify and neutralize threats before they can impact the network.
 
-## ✨ Features
+##  Features
 
-### 🎯 Core Capabilities
+###  Core Capabilities
 
 - **Real-Time Threat Detection** - 24/7 AI-powered monitoring with sub-10ms response time
 - **Autonomous Defense System** - RL agents that adapt and learn from new attack patterns
 - **Live Dashboard** - Real-time metrics visualization with interactive graphs
 - **Mempool Analysis** - Continuous monitoring of transaction pools for anomalies
 
-### 🎨 User Interface
+###  User Interface
 
 - **Modern Glassmorphism Design** - Premium dark theme with neon accents
 - **3D Blockchain Animation** - Interactive Three.js visualization
 - **Smooth Animations** - Scroll-triggered reveals and micro-interactions
 - **Fully Responsive** - Optimized for all devices
 
-### 📊 Live Monitoring Dashboard
+###  Live Monitoring Dashboard
 
 - Mempool Size tracking
 - Threats Blocked counter
@@ -46,7 +46,7 @@ NodesCrypt is a cutting-edge cybersecurity platform designed to protect blockcha
 - System Mode indicator (NORMAL/DEFENSIVE/ACTIVE)
 - Real-time graph visualization
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 | Category | Technologies |
 |----------|-------------|
@@ -58,7 +58,7 @@ NodesCrypt is a cutting-edge cybersecurity platform designed to protect blockcha
 | **Backend Integration** | Supabase (Contact Form) |
 | **Deployment** | Vercel / Netlify |
 
-## 📦 Installation
+##  Installation
 
 ### Prerequisites
 
@@ -93,7 +93,7 @@ npm run build
 npm run preview
 ```
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 NodesCrypt/
@@ -123,7 +123,7 @@ NodesCrypt/
 └── package.json
 ```
 
-## 🔧 Configuration
+##  Configuration
 
 ### Environment Variables
 
@@ -143,7 +143,7 @@ https://your-api-endpoint/api/dashboard
 
 Update the `API_URL` in `src/components/RealTimeMonitor.jsx` to point to your backend.
 
-## 🎮 Interactive Features
+##  Interactive Features
 
 ### 3D Blockchain Animation
 - **Mouse Drag** - Rotate the 3D scene 360°
@@ -155,7 +155,7 @@ Update the `API_URL` in `src/components/RealTimeMonitor.jsx` to point to your ba
 - **Real-time Updates** - Data refreshes every second
 - **Live Status Indicators** - System health at a glance
 
-## 🚀 Deployment
+##  Deployment
 
 ### Vercel (Recommended)
 
@@ -184,7 +184,7 @@ EXPOSE 3000
 CMD ["npm", "run", "preview"]
 ```
 
-## 🤝 Contributing
+##  Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
@@ -194,11 +194,11 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📄 License
+##  License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👥 Team
+##  Team
 
 **NodesCrypt** - Developed for **DeFy26 Hackathon**
 
@@ -206,9 +206,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-**Built with ❤️ for a safer blockchain ecosystem**
+**Built by NodesCrypt for a safer blockchain ecosystem**
 
 [⬆ Back to Top](#-nodescrypt)
 
 </div>
+
 
