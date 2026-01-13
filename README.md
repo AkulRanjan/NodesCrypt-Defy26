@@ -2,45 +2,53 @@
 
 > **Privacy-preserving, real-time mempool defense middleware for Shardeum and EVM blockchains**
 
-[![ETHIndia 2026](https://img.shields.io/badge/ETHIndia-2026-blue)](https://ethindia.co)
+[![ETHIndia 2026](https://img.shields.io/badge/ETHIndia-Defy_2026-blue)](https://ethindia.co)
 [![Shardeum](https://img.shields.io/badge/Shardeum-Native-green)](https://shardeum.org)
 [![INCO](https://img.shields.io/badge/INCO-Confidential-purple)](https://inco.network)
 [![Live](https://img.shields.io/badge/Status-LIVE-brightgreen)]()
 
 ---
 
-## 🎯 What is NodesCrypt?
+## 🏆 Sponsor Integrations
 
-NodesCrypt is a **sidecar security middleware** that protects EVM validators from mempool-level attacks:
+### Shardeum (Target EVM L1)
+- **Used in**: CP1 (Ingestion), CP2 (Features), CP8 (Deployment)
+- **Purpose**: Target blockchain for mempool protection
+- **Network**: Shardeum Sphinx Testnet (Chain ID: 8081)
+- **Contract**: `NodescryptAudit.sol` ready for deployment
 
-- 🔍 **Detects** spam, DoS, and MEV exploitation using Machine Learning
-- 🧠 **Decides** optimal mitigation actions using Reinforcement Learning  
-- 🛡️ **Mitigates** attacks locally (no consensus changes required)
-- 🔐 **Audits** all decisions confidentially via INCO Network
-
-### Why NodesCrypt?
-
-| Traditional Security | NodesCrypt |
-|---------------------|------------|
-| Manual rule-based | AI/ML-powered |
-| Reactive (post-attack) | Proactive (real-time) |
-| Public audit logs | Confidential (INCO) |
-| Static thresholds | Adaptive (RL) |
-| Protocol changes required | Sidecar (no fork) |
+### INCO Network (Confidential Audit Layer)  
+- **Used in**: CP6 (Audit), CP7 (Metrics), CP8 (Governance)
+- **Purpose**: Confidential on-chain incident logging via FHE
+- **Network**: INCO Rivest Testnet (Chain ID: 21097)
+- **Contracts**: Full suite ready for deployment
 
 ---
 
-## 📊 Live Demo Stats
+## 📊 Live Demo Stats (9+ hours running)
 
 | Metric | Value |
 |--------|-------|
-| **Transactions Captured** | 660,000+ |
-| **Features Extracted** | 300,000+ |
-| **ML Models** | Spam + MEV detection |
+| **Transactions Captured** | 700,000+ |
+| **Features Extracted** | 350,000+ |
+| **ML Models** | Spam + MEV detection (trained) |
 | **System Mode** | NORMAL |
-| **Uptime** | 8+ hours continuous |
+| **Uptime** | 9+ hours continuous |
 
-**Live API**: Access real-time metrics via our public endpoint
+---
+
+## 🔗 Deployed Contracts
+
+| Contract | Address | Network |
+|----------|---------|---------|
+| ContractRegistry | `0x5FbDB2315678afecb367f032d93F642f64180aa3` | Local Demo |
+| SecurityAudit | `0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512` | Local Demo |
+| MerkleBatchAnchor | `0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0` | Local Demo |
+| PolicyRegistry | `0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9` | Local Demo |
+| Governance | `0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9` | Local Demo |
+| AddressBook | `0x5FC8d32690cc91D4c39d9d3abcBD16989F875707` | Local Demo |
+
+> **Note**: Shardeum/INCO testnet deployments pending - testnets currently experiencing SSL/DNS issues
 
 ---
 
