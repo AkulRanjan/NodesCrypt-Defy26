@@ -9,7 +9,7 @@
 
 **Privacy-preserving, real-time mempool defense middleware for Shardeum and EVM blockchains**
 
-[Demo](#live-demo) • [Architecture](#architecture) • [Checkpoints](#the-8-checkpoints-cp1-cp8) • [Contracts](#smart-contracts-7-total) • [Sponsors](#sponsor-deep-dive) • [Quick Start](#quick-start)
+[Demo](#https://nodescrypt.pages.dev) • [Architecture](#architecture) • [Checkpoints](#the-8-checkpoints-cp1-cp8) • [Contracts](#smart-contracts-7-total) • [Sponsors](#sponsor-deep-dive) • [Quick Start](#quick-start)
 
 </div>
 
@@ -97,9 +97,9 @@ Every blockchain suffers from **mempool-level attacks**:
 
 | Endpoint | URL |
 |----------|-----|
-| **Grafana Dashboard** | https://mara-monogrammatic-shiftily.ngrok-free.dev |
-| **Dashboard API** | http://localhost:8088/api/dashboard |
-| **Prometheus Metrics** | http://localhost:9100/metrics |
+| **Grafana Dashboard** |
+| **Dashboard API** |
+| **Prometheus Metrics** |
 
 ### Public API Example
 
@@ -723,3 +723,4 @@ MIT License — see [LICENSE](./LICENSE)
 *Powered by Shardeum and INCO Network*
 
 </div>
+
