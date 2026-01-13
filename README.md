@@ -9,7 +9,7 @@
 
 **Privacy-preserving, real-time mempool defense middleware for Shardeum and EVM blockchains**
 
-[Demo](#https://nodescrypt.pages.dev) • [Architecture](#architecture) • [Checkpoints](#the-8-checkpoints-cp1-cp8) • [Contracts](#smart-contracts-7-total) • [Sponsors](#sponsor-deep-dive) • [Quick Start](#quick-start)
+[Demo](https://nodescrypt.pages.dev) • [Architecture](#architecture) • [Checkpoints](#the-8-checkpoints-cp1-cp8) • [Contracts](#smart-contracts-7-total) • [Sponsors](#sponsor-deep-dive) • [Quick Start](#quick-start)
 
 </div>
 
@@ -723,4 +723,5 @@ MIT License — see [LICENSE](./LICENSE)
 *Powered by Shardeum and INCO Network*
 
 </div>
+
 
