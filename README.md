@@ -18,19 +18,19 @@
 ## 🎯 The Problem
 
 Every blockchain suffers from **mempool-level attacks**:
-- 🚨 **Spam Floods** — Attackers clog the network with low-value transactions
-- 💸 **MEV Exploitation** — Searchers front-run and sandwich user trades
-- ⚡ **DoS Attacks** — Malicious actors overwhelm validators
-- 🔒 **Eclipse Attacks** — Sybils isolate nodes from honest peers
+- **Spam Floods** — Attackers clog the network with low-value transactions
+- **MEV Exploitation** — Searchers front-run and sandwich user trades
+- **DoS Attacks** — Malicious actors overwhelm validators
+- **Eclipse Attacks** — Sybils isolate nodes from honest peers
 
 **Current solutions fail** because they're either:
-- ❌ Reactive (detect after damage)
-- ❌ Centralized (single point of failure)
-- ❌ Public (attackers can see defenses)
+-  Reactive (detect after damage)
+- Centralized (single point of failure)
+- Public (attackers can see defenses)
 
 ---
 
-## 💡 Our Solution
+## Our Solution
 
 **NodesCrypt** is a **sidecar security middleware** that runs alongside validators:
 
@@ -57,7 +57,7 @@ Every blockchain suffers from **mempool-level attacks**:
 │       │        │              │                                  │
 │       ▼        ▼              ▼                                  │
 │  ┌─────────────────────────────────────────────────────────────┐│
-│  │  DECISION: PASS ✅ | DELAY ⏳ | DROP ❌ | ESCALATE 🚨        ││
+│  │  DECISION: PASS  | DELAY  | DROP  | ESCALATE         ││
 │  └─────────────────────────────────────────────────────────────┘│
 │                               │                                  │
 │             ┌─────────────────┼─────────────────┐               │
@@ -79,19 +79,19 @@ Every blockchain suffers from **mempool-level attacks**:
 
 ---
 
-## 📊 Live Demo
+## Live Demo
 
 > **System has been running for 9+ hours continuously**
 
 | Metric | Live Value |
 |--------|------------|
-| 📥 **Transactions Captured** | **750,000+** |
-| 🔬 **Features Extracted** | **380,000+** |
-| 🧠 **ML Inferences** | Real-time spam/MEV |
-| 🎯 **System Mode** | NORMAL |
-| ⏱️ **Uptime** | 9+ hours |
+| **Transactions Captured** | **750,000+** |
+| **Features Extracted** | **380,000+** |
+| **ML Inferences** | Real-time spam/MEV |
+| **System Mode** | NORMAL |
+| **Uptime** | 9+ hours |
 
-### 🌐 Public Endpoints (Live Now!)
+### Public Endpoints (Live Now!)
 
 | Endpoint | URL |
 |----------|-----|
@@ -119,7 +119,7 @@ Response:
 
 ---
 
-## 🏗️ Architecture
+##  Architecture
 
 ### High-Level Overview
 
@@ -131,7 +131,7 @@ Response:
 
 ---
 
-## 📍 The 8 Checkpoints (CP1-CP8)
+##  The 8 Checkpoints (CP1-CP8)
 
 Our system follows a **checkpoint-based architecture** for modularity and auditability:
 
@@ -301,10 +301,10 @@ contract SecurityAudit {
 ```
 
 **Why INCO?**
-- ✅ **Confidential**: Attackers can't see what's being blocked
-- ✅ **Immutable**: All decisions are permanently logged
-- ✅ **Verifiable**: Auditors can decrypt with permission
-- ✅ **Zero-Knowledge**: No sensitive data exposed
+- **Confidential**: Attackers can't see what's being blocked
+- **Immutable**: All decisions are permanently logged
+- **Verifiable**: Auditors can decrypt with permission
+- **Zero-Knowledge**: No sensitive data exposed
 
 **Key Files**: `contracts/SecurityAudit.sol`, `audit/submit_incident.py`
 
@@ -346,7 +346,7 @@ docker-compose up -d
 
 ---
 
-## 📜 Smart Contracts (7 Total)
+## Smart Contracts (7 Total)
 
 We built a **complete on-chain governance and audit suite**:
 
@@ -395,9 +395,9 @@ We built a **complete on-chain governance and audit suite**:
 
 ---
 
-## 🏆 Sponsor Deep Dive
+## Sponsor Deep Dive
 
-### 🟢 Shardeum Integration
+###  Shardeum Integration
 
 > **Shardeum is our primary target blockchain and EVM runtime**
 
@@ -467,7 +467,7 @@ contract NodescryptAudit {
 
 ---
 
-### 🟣 INCO Network Integration
+###  INCO Network Integration
 
 > **INCO provides confidential computing via Fully Homomorphic Encryption (FHE)**
 
@@ -583,7 +583,7 @@ contract SecurityAudit is AccessControl {
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 - Docker & Docker Compose
@@ -641,7 +641,7 @@ npx hardhat run scripts/deploy-all.js --network inco
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 NodesCrypt-Defy26/
@@ -671,7 +671,7 @@ NodesCrypt-Defy26/
 
 ---
 
-## 🛠️ Technology Stack
+##  Technology Stack
 
 | Layer | Technology |
 |-------|------------|
@@ -686,7 +686,7 @@ NodesCrypt-Defy26/
 
 ---
 
-## 📈 Performance
+##  Performance
 
 | Metric | Value |
 |--------|-------|
@@ -699,13 +699,13 @@ NodesCrypt-Defy26/
 
 ---
 
-## 👥 Team
+##  Team
 
-**Built with ❤️ at ETHIndia Defy 2026**
+**Built with  at ETHIndia Defy 2026**
 
 ---
 
-## 📜 License
+##  License
 
 MIT License — see [LICENSE](./LICENSE)
 
@@ -715,6 +715,6 @@ MIT License — see [LICENSE](./LICENSE)
 
 **NodesCrypt — Privacy-preserving, AI-powered, real-time mempool defense for EVM chains.**
 
-*Powered by Shardeum 🟢 and INCO Network 🟣*
+*Powered by Shardeum  and INCO Network *
 
 </div>
