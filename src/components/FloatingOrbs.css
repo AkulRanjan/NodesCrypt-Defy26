@@ -1,0 +1,142 @@
+.floating-orbs {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+}
+
+.orb-1 {
+    width: 400px;
+    height: 400px;
+    background:  rgba(54, 115, 245, 0.3);
+    top: 10%;
+    left: -100px;
+    animation: floatOrb1 25s ease-in-out infinite;
+}
+
+.orb-2 {
+    width: 300px;
+    height: 300px;
+    background:  rgba(54, 115, 245, 0.25);
+    top: 60%;
+    right: -50px;
+    animation: floatOrb2 20s ease-in-out infinite;
+}
+
+.orb-3 {
+    width: 250px;
+    height: 250px;
+    background:  rgba(54, 115, 245, 0.2);
+    bottom: 10%;
+    left: 30%;
+    animation: floatOrb3 30s ease-in-out infinite;
+}
+
+.orb-4 {
+    width: 350px;
+    height: 350px;
+    background:  rgba(54, 115, 245, 0.2);
+    top: 30%;
+    right: 20%;
+    animation: floatOrb4 22s ease-in-out infinite;
+}
+
+.orb-5 {
+    width: 200px;
+    height: 200px;
+    background:  rgba(54, 115, 245, 0.15);
+    top: 50%;
+    left: 10%;
+    animation: floatOrb5 28s ease-in-out infinite;
+}
+
+@keyframes floatOrb1 {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    25% {
+        transform: translate(100px, 50px) scale(1.1);
+    }
+
+    50% {
+        transform: translate(50px, 100px) scale(0.9);
+    }
+
+    75% {
+        transform: translate(-30px, 60px) scale(1.05);
+    }
+}
+
+@keyframes floatOrb2 {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    33% {
+        transform: translate(-80px, -60px) scale(1.15);
+    }
+
+    66% {
+        transform: translate(-40px, 40px) scale(0.95);
+    }
+}
+
+@keyframes floatOrb3 {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate(100px, -80px) scale(1.1);
+    }
+}
+
+@keyframes floatOrb4 {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    40% {
+        transform: translate(-60px, 80px) scale(0.9);
+    }
+
+    80% {
+        transform: translate(40px, -40px) scale(1.1);
+    }
+}
+
+@keyframes floatOrb5 {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    25% {
+        transform: translate(60px, -40px) scale(1.2);
+    }
+
+    75% {
+        transform: translate(-40px, 60px) scale(0.85);
+    }
+}

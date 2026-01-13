@@ -1,0 +1,386 @@
+.footer {
+    position: relative;
+    padding: 100px 0 40px;
+    overflow: hidden;
+    min-height: 600px;
+    background: #030308;
+}
+
+/* Animated Canvas Background */
+.footer-animation-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+/* 3D Road Animation */
+.footer-animation {
+    width: 100%;
+    height: 100%;
+    min-height: unset;
+}
+
+.footer-animation::before,
+.footer-animation::after {
+    display: none;
+    /* Remove default vignette from TestAnimation */
+}
+
+
+/* Glow overlay for the animation */
+.footer-glow-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    box-shadow:
+        inset 0 0 200px rgba(54, 115, 245, 0.15),
+        inset 0 0 100px rgba(54, 115, 245, 0.1);
+    pointer-events: none;
+    mix-blend-mode: screen;
+}
+
+/* Gradient overlay */
+.footer-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom,
+            rgba(3, 3, 8, 0.8) 0%,
+            rgba(3, 3, 8, 0.2) 40%,
+            rgba(3, 3, 8, 0.2) 60%,
+            rgba(3, 3, 8, 0.7) 100%);
+}
+
+/* Footer Content */
+.footer-content {
+    position: relative;
+    z-index: 10;
+}
+
+.footer-main {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 50px;
+}
+
+/* Brand Section */
+.footer-brand {
+    max-width: 350px;
+}
+
+.footer-logo {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.footer-logo .logo-image {
+    height: 70px;
+    width: 70px;
+    object-fit: contain;
+    transition: all 0.3s ease;
+}
+
+.footer-logo:hover .logo-image {
+    filter: drop-shadow(0 0 8px var(--primary));
+    transform: scale(1.05);
+}
+
+.footer-tagline {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.7;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Links Section */
+.footer-links {
+    display: flex;
+    gap: 60px;
+}
+
+.footer-column h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 0 20px rgba(54, 115, 245, 0.3);
+}
+
+.footer-column a {
+    display: block;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.footer-column a:hover {
+    color: var(--primary);
+    transform: translateX(5px);
+    text-shadow: 0 0 15px var(--primary);
+}
+
+/* Contact Section */
+.footer-contact h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 0 20px rgba(54, 115, 245, 0.3);
+}
+
+.email-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 30px;
+    background: rgba(54, 115, 245, 0.1);
+    border: 2px solid rgba(54, 115, 245, 0.5);
+    border-radius: 50px;
+    color: var(--primary);
+    font-size: 1.05rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(15px);
+    box-shadow:
+        0 0 30px rgba(54, 115, 245, 0.2),
+        inset 0 0 20px rgba(54, 115, 245, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.email-link::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(54, 115, 245, 0.3) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+    border-radius: 50%;
+}
+
+.email-link:hover::before {
+    width: 400px;
+    height: 400px;
+}
+
+.email-link:hover {
+    background: rgba(54, 115, 245, 0.15);
+    border-color: rgba(54, 115, 245, 1);
+    transform: translateY(-4px) scale(1.03);
+    box-shadow:
+        0 15px 60px rgba(54, 115, 245, 0.4),
+        0 0 40px rgba(54, 115, 245, 0.3),
+        inset 0 0 30px rgba(54, 115, 245, 0.15);
+    text-shadow: 0 0 20px rgba(54, 115, 245, 0.5);
+}
+
+.email-icon {
+    width: 24px;
+    height: 24px;
+    color: var(--primary);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: drop-shadow(0 0 8px rgba(54, 115, 245, 0.5));
+    flex-shrink: 0;
+}
+
+.email-link:hover .email-icon {
+    transform: translateY(-2px) scale(1.1);
+    filter: drop-shadow(0 0 15px rgba(54, 115, 245, 0.8)) drop-shadow(0 0 25px rgba(54, 115, 245, 0.4));
+    animation: mailBounce 0.6s ease-in-out;
+}
+
+@keyframes mailBounce {
+
+    0%,
+    100% {
+        transform: translateY(-2px) scale(1.1);
+    }
+
+    50% {
+        transform: translateY(-6px) scale(1.15);
+    }
+}
+
+/* Add subtle pulse animation to the icon */
+.email-icon path {
+    transition: all 0.3s ease;
+}
+
+.email-link:hover .email-icon path:first-child {
+    animation: envelopePulse 1.5s ease-in-out infinite;
+}
+
+.email-link:hover .email-icon path:last-child {
+    animation: envelopeFlap 0.6s ease-in-out;
+}
+
+@keyframes envelopePulse {
+
+    0%,
+    100% {
+        stroke-width: 2;
+    }
+
+    50% {
+        stroke-width: 2.5;
+    }
+}
+
+@keyframes envelopeFlap {
+    0% {
+        transform: translateY(0);
+    }
+
+    30% {
+        transform: translateY(-2px);
+    }
+
+    60% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+/* Footer Bottom */
+.footer-bottom {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-glow-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg,
+            transparent,
+            var(--primary),
+            var(--secondary),
+            var(--primary),
+            transparent);
+    opacity: 0.6;
+    filter: blur(1px);
+    animation: lineGlow 4s ease-in-out infinite;
+}
+
+@keyframes lineGlow {
+
+    0%,
+    100% {
+        opacity: 0.4;
+        filter: blur(1px);
+    }
+
+    50% {
+        opacity: 0.8;
+        filter: blur(2px);
+    }
+}
+
+.footer-bottom p {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+/* Status Pill */
+.footer-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    background: rgba(0, 255, 100, 0.08);
+    border: 1px solid rgba(0, 255, 100, 0.3);
+    border-radius: 50px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.footer-status:hover {
+    background: rgba(0, 255, 100, 0.12);
+    border-color: rgba(0, 255, 100, 0.5);
+    box-shadow: 0 0 20px rgba(0, 255, 100, 0.2);
+}
+
+.footer-status-dot {
+    width: 8px;
+    height: 8px;
+    background: #00ff64;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00ff64, 0 0 20px rgba(0, 255, 100, 0.5);
+    animation: statusPulse 2s ease-in-out infinite;
+}
+
+@keyframes statusPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        box-shadow: 0 0 10px #00ff64, 0 0 20px rgba(0, 255, 100, 0.5);
+    }
+
+    50% {
+        opacity: 0.7;
+        box-shadow: 0 0 15px #00ff64, 0 0 30px rgba(0, 255, 100, 0.7);
+    }
+}
+
+.footer-status span {
+    color: #00ff64;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-shadow: 0 0 10px rgba(0, 255, 100, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+    .footer-main {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .footer-links {
+        gap: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-bottom {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 30px;
+    }
+}

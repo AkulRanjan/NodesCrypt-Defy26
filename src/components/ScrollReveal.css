@@ -1,0 +1,88 @@
+.scroll-reveal {
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scroll-reveal.visible {
+  opacity: 1;
+}
+
+/* Animation Variants */
+.scroll-reveal.fade-up {
+  transform: translateY(60px);
+}
+
+.scroll-reveal.fade-up.visible {
+  transform: translateY(0);
+}
+
+.scroll-reveal.fade-down {
+  transform: translateY(-60px);
+}
+
+.scroll-reveal.fade-down.visible {
+  transform: translateY(0);
+}
+
+.scroll-reveal.fade-left {
+  transform: translateX(-60px);
+}
+
+.scroll-reveal.fade-left.visible {
+  transform: translateX(0);
+}
+
+.scroll-reveal.fade-right {
+  transform: translateX(60px);
+}
+
+.scroll-reveal.fade-right.visible {
+  transform: translateX(0);
+}
+
+.scroll-reveal.scale-in {
+  transform: scale(0.9);
+}
+
+.scroll-reveal.scale-in.visible {
+  transform: scale(1);
+}
+
+.scroll-reveal.zoom-in {
+  transform: scale(0.8);
+}
+
+.scroll-reveal.zoom-in.visible {
+  transform: scale(1);
+}
+
+/* Delay variants for staggered animations */
+.scroll-reveal.delay-100 {
+  transition-delay: 0.05s;
+}
+
+.scroll-reveal.delay-200 {
+  transition-delay: 0.1s;
+}
+
+.scroll-reveal.delay-300 {
+  transition-delay: 0.15s;
+}
+
+.scroll-reveal.delay-400 {
+  transition-delay: 0.2s;
+}
+
+.scroll-reveal.delay-500 {
+  transition-delay: 0.25s;
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
