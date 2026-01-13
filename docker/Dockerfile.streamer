@@ -1,0 +1,15 @@
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# Install dependencies
+RUN pip install --no-cache-dir \
+    psycopg2-binary \
+    requests
+
+# Copy streamer code
+COPY streamer/ /app/streamer/
+COPY monitoring/ /app/monitoring/
+
+# Run the streamer
+CMD ["python", "streamer/eth_streamer.py"]

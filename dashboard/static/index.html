@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkpoint Security Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111827;
+            --bg-card: #1a1f2e;
+            --bg-elevated: #252b3b;
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+            --accent-primary: #3b82f6;
+            --accent-secondary: #8b5cf6;
+            --accent-success: #10b981;
+            --accent-warning: #f59e0b;
+            --accent-danger: #ef4444;
+            --gradient-primary: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --gradient-danger: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --glow-primary: 0 0 40px rgba(59, 130, 246, 0.3);
+            --glow-success: 0 0 40px rgba(16, 185, 129, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: var(--glow-primary);
+        }
+
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-section {
+            margin-bottom: 32px;
+        }
+
+        .nav-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 4px;
+            color: var(--text-secondary);
+        }
+
+        .nav-item:hover {
+            background: var(--bg-elevated);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--glow-primary);
+        }
+
+        .nav-icon {
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .system-status {
+            margin-top: auto;
+            padding: 20px;
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .status-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent-success);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .status-label {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .status-mode {
+            margin-left: auto;
+            padding: 4px 10px;
+            background: var(--gradient-success);
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 32px;
+            overflow-y: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .header-title {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .header-subtitle {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--glow-primary);
+        }
+
+        .btn-secondary {
+            background: var(--bg-elevated);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 24px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+        }
+
+        .stat-card.success::before {
+            background: var(--gradient-success);
+        }
+
+        .stat-card.danger::before {
+            background: var(--gradient-danger);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 16px;
+            background: rgba(59, 130, 246, 0.15);
+        }
+
+        .stat-card.success .stat-icon {
+            background: rgba(16, 185, 129, 0.15);
+        }
+
+        .stat-card.danger .stat-icon {
+            background: rgba(239, 68, 68, 0.15);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .stat-change {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .stat-change.up {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-success);
+        }
+
+        .stat-change.down {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--accent-danger);
+        }
+
+        /* Charts Grid */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .chart-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 24px;
+            border: 1px solid var(--border-color);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .chart-tabs {
+            display: flex;
+            gap: 8px;
+        }
+
+        .chart-tab {
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            cursor: pointer;
+            background: var(--bg-elevated);
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+        }
+
+        .chart-tab.active {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .chart-container {
+            height: 300px;
+        }
+
+        /* Threat Distribution */
+        .threat-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .threat-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: var(--bg-elevated);
+            border-radius: 12px;
+        }
+
+        .threat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .threat-spam { background: rgba(239, 68, 68, 0.15); }
+        .threat-mev { background: rgba(245, 158, 11, 0.15); }
+        .threat-nonce { background: rgba(139, 92, 246, 0.15); }
+
+        .threat-info {
+            flex: 1;
+        }
+
+        .threat-name {
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .threat-count {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .threat-rate {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-success);
+        }
+
+        /* Bottom Grid */
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* Incidents Table */
+        .incidents-table {
+            width: 100%;
+        }
+
+        .incidents-table th,
+        .incidents-table td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .incidents-table th {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        .severity-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .severity-high {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--accent-danger);
+        }
+
+        .severity-medium {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent-warning);
+        }
+
+        .severity-low {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-success);
+        }
+
+        /* System Components */
+        .components-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .component-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: var(--bg-elevated);
+            border-radius: 12px;
+        }
+
+        .component-status {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .component-status.healthy { background: var(--accent-success); }
+        .component-status.warning { background: var(--accent-warning); }
+        .component-status.error { background: var(--accent-danger); }
+
+        .component-info {
+            flex: 1;
+        }
+
+        .component-name {
+            font-weight: 500;
+        }
+
+        .component-latency {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Live indicator */
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            background: rgba(16, 185, 129, 0.15);
+            border-radius: 20px;
+            font-size: 12px;
+            color: var(--accent-success);
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-success);
+            animation: pulse 1s infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 1400px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            .bottom-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">🛡️</div>
+                <span class="logo-text">Checkpoint</span>
+            </div>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Overview</div>
+                <div class="nav-item active">
+                    <span class="nav-icon">📊</span>
+                    <span>Dashboard</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">🔍</span>
+                    <span>Threat Analysis</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">📈</span>
+                    <span>Metrics</span>
+                </div>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Security</div>
+                <div class="nav-item">
+                    <span class="nav-icon">🤖</span>
+                    <span>ML Models</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">🧠</span>
+                    <span>RL Policy</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">📋</span>
+                    <span>Rules Engine</span>
+                </div>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Audit</div>
+                <div class="nav-item">
+                    <span class="nav-icon">🔐</span>
+                    <span>INCO Logs</span>
+                </div>
+                <div class="nav-item">
+                    <span class="nav-icon">📝</span>
+                    <span>Incidents</span>
+                </div>
+            </nav>
+
+            <div class="system-status">
+                <div class="status-header">
+                    <div class="status-dot"></div>
+                    <span class="status-label">System Active</span>
+                    <span class="status-mode" id="systemMode">DEFENSIVE</span>
+                </div>
+                <div style="font-size: 12px; color: var(--text-secondary);">
+                    Uptime: <span id="uptime">47h 32m</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <div>
+                    <h1 class="header-title">Security Overview</h1>
+                    <p class="header-subtitle">Real-time mempool protection and threat mitigation</p>
+                </div>
+                <div class="header-actions">
+                    <div class="live-indicator">
+                        <div class="live-dot"></div>
+                        <span>LIVE</span>
+                    </div>
+                    <button class="btn btn-secondary">
+                        <span>📤</span> Export
+                    </button>
+                    <button class="btn btn-primary">
+                        <span>⚙️</span> Settings
+                    </button>
+                </div>
+            </header>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📦</div>
+                    <div class="stat-value" id="totalTxs">1,247</div>
+                    <div class="stat-label">Total Transactions</div>
+                    <div class="stat-change up">↑ 12%</div>
+                </div>
+                <div class="stat-card success">
+                    <div class="stat-icon">🛡️</div>
+                    <div class="stat-value" id="threatsBlocked">183</div>
+                    <div class="stat-label">Threats Blocked</div>
+                    <div class="stat-change up">↑ 23%</div>
+                </div>
+                <div class="stat-card danger">
+                    <div class="stat-icon">⚠️</div>
+                    <div class="stat-value" id="activeAlerts">3</div>
+                    <div class="stat-label">Active Alerts</div>
+                    <div class="stat-change down">↓ 5</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-value" id="effectiveness">89.7%</div>
+                    <div class="stat-label">Detection Rate</div>
+                    <div class="stat-change up">↑ 2.3%</div>
+                </div>
+            </div>
+
+            <!-- Charts Grid -->
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Mempool Activity</h3>
+                        <div class="chart-tabs">
+                            <div class="chart-tab active">1H</div>
+                            <div class="chart-tab">6H</div>
+                            <div class="chart-tab">24H</div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="mempoolChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Threat Distribution</h3>
+                    </div>
+                    <div class="threat-list">
+                        <div class="threat-item">
+                            <div class="threat-icon threat-spam">⚡</div>
+                            <div class="threat-info">
+                                <div class="threat-name">Spam Attacks</div>
+                                <div class="threat-count">142 blocked / 156 detected</div>
+                            </div>
+                            <div class="threat-rate">91%</div>
+                        </div>
+                        <div class="threat-item">
+                            <div class="threat-icon threat-mev">🔄</div>
+                            <div class="threat-info">
+                                <div class="threat-name">MEV Attacks</div>
+                                <div class="threat-count">6 blocked / 8 detected</div>
+                            </div>
+                            <div class="threat-rate">75%</div>
+                        </div>
+                        <div class="threat-item">
+                            <div class="threat-icon threat-nonce">🔢</div>
+                            <div class="threat-info">
+                                <div class="threat-name">Nonce Flooding</div>
+                                <div class="threat-count">21 blocked / 23 detected</div>
+                            </div>
+                            <div class="threat-rate">91%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Grid -->
+            <div class="bottom-grid">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Recent Incidents</h3>
+                    </div>
+                    <table class="incidents-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Type</th>
+                                <th>Severity</th>
+                                <th>Action</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="incidentsTable">
+                            <tr>
+                                <td>0x7a3f...2c</td>
+                                <td>Spam Attack</td>
+                                <td><span class="severity-badge severity-high">HIGH</span></td>
+                                <td>DEFENSIVE</td>
+                                <td>2m ago</td>
+                            </tr>
+                            <tr>
+                                <td>0x8b4c...3e</td>
+                                <td>MEV Attempt</td>
+                                <td><span class="severity-badge severity-medium">MEDIUM</span></td>
+                                <td>DEPRIORITIZE</td>
+                                <td>5m ago</td>
+                            </tr>
+                            <tr>
+                                <td>0x5e2a...9b</td>
+                                <td>Fee Anomaly</td>
+                                <td><span class="severity-badge severity-low">LOW</span></td>
+                                <td>FLAG</td>
+                                <td>12m ago</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="chart-title">System Components</h3>
+                    </div>
+                    <div class="components-list" id="componentsList">
+                        <div class="component-item">
+                            <div class="component-status healthy"></div>
+                            <div class="component-info">
+                                <div class="component-name">PostgreSQL</div>
+                                <div class="component-latency">12ms latency</div>
+                            </div>
+                        </div>
+                        <div class="component-item">
+                            <div class="component-status healthy"></div>
+                            <div class="component-info">
+                                <div class="component-name">ML Service</div>
+                                <div class="component-latency">45ms latency</div>
+                            </div>
+                        </div>
+                        <div class="component-item">
+                            <div class="component-status healthy"></div>
+                            <div class="component-info">
+                                <div class="component-name">RL Policy</div>
+                                <div class="component-latency">3ms latency</div>
+                            </div>
+                        </div>
+                        <div class="component-item">
+                            <div class="component-status healthy"></div>
+                            <div class="component-info">
+                                <div class="component-name">INCO Audit</div>
+                                <div class="component-latency">150ms latency</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Initialize Charts
+        const ctx = document.getElementById('mempoolChart').getContext('2d');
+        
+        const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+        gradient.addColorStop(0, 'rgba(59, 130, 246, 0.3)');
+        gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
+
+        const mempoolChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: 30}, (_, i) => `${30-i}m`),
+                datasets: [{
+                    label: 'TX Count',
+                    data: Array.from({length: 30}, () => Math.floor(Math.random() * 60) + 30),
+                    borderColor: '#3b82f6',
+                    backgroundColor: gradient,
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 0,
+                    pointHoverRadius: 6,
+                    pointHoverBackgroundColor: '#3b82f6'
+                }, {
+                    label: 'Threats',
+                    data: Array.from({length: 30}, () => Math.floor(Math.random() * 10) + 2),
+                    borderColor: '#ef4444',
+                    borderWidth: 2,
+                    borderDash: [5, 5],
+                    fill: false,
+                    tension: 0.4,
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        align: 'end',
+                        labels: {
+                            color: '#9ca3af',
+                            usePointStyle: true,
+                            padding: 20
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#6b7280'
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.05)'
+                        },
+                        ticks: {
+                            color: '#6b7280'
+                        }
+                    }
+                }
+            }
+        });
+
+        // WebSocket for real-time updates
+        let ws;
+        function connectWebSocket() {
+            ws = new WebSocket('ws://localhost:3001/ws/metrics');
+            
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                updateDashboard(data);
+            };
+            
+            ws.onclose = () => {
+                setTimeout(connectWebSocket, 3000);
+            };
+            
+            ws.onerror = () => {
+                console.log('WebSocket error, using mock data');
+                setInterval(updateWithMockData, 2000);
+            };
+        }
+
+        function updateDashboard(data) {
+            // Update mempool size
+            if (data.mempool_size) {
+                document.getElementById('totalTxs').textContent = data.mempool_size.toLocaleString();
+            }
+            
+            // Update mode
+            if (data.mode) {
+                document.getElementById('systemMode').textContent = data.mode;
+            }
+            
+            // Update chart
+            mempoolChart.data.datasets[0].data.shift();
+            mempoolChart.data.datasets[0].data.push(data.mempool_size || Math.floor(Math.random() * 60) + 30);
+            mempoolChart.data.datasets[1].data.shift();
+            mempoolChart.data.datasets[1].data.push(data.threats_per_minute || Math.floor(Math.random() * 10) + 2);
+            mempoolChart.update('none');
+        }
+
+        function updateWithMockData() {
+            const data = {
+                mempool_size: Math.floor(Math.random() * 60) + 30,
+                mode: Math.random() > 0.3 ? 'DEFENSIVE' : 'NORMAL',
+                threats_per_minute: Math.floor(Math.random() * 10) + 2
+            };
+            updateDashboard(data);
+        }
+
+        // Fetch initial data
+        async function fetchInitialData() {
+            try {
+                const response = await fetch('http://localhost:3001/api/metrics/summary');
+                const data = await response.json();
+                
+                document.getElementById('totalTxs').textContent = data.total_transactions?.toLocaleString() || '1,247';
+                document.getElementById('threatsBlocked').textContent = data.threats_blocked || '183';
+                document.getElementById('activeAlerts').textContent = data.active_alerts || '3';
+            } catch (e) {
+                console.log('Using default data');
+            }
+        }
+
+        // Initialize
+        fetchInitialData();
+        connectWebSocket();
+
+        // Fallback to mock updates
+        setTimeout(() => {
+            if (!ws || ws.readyState !== WebSocket.OPEN) {
+                setInterval(updateWithMockData, 2000);
+            }
+        }, 5000);
+    </script>
+</body>
+</html>

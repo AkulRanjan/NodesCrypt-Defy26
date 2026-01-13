@@ -1,0 +1,19 @@
+{
+    "name": "nodescrypt-proxy",
+    "version": "1.0.0",
+    "description": "Nodescrypt transaction filter proxy",
+    "main": "filter_proxy.js",
+    "scripts": {
+        "start": "node filter_proxy.js",
+        "dev": "nodemon filter_proxy.js"
+    },
+    "dependencies": {
+        "express": "^4.18.2",
+        "cors": "^2.8.5",
+        "axios": "^1.6.0",
+        "ethers": "^6.9.0"
+    },
+    "devDependencies": {
+        "nodemon": "^3.0.0"
+    }
+}

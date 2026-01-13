@@ -1,0 +1,178 @@
+version: '3.8'
+
+# ============================================
+# NODESCRYPT EVM EDITION - FULL STACK
+# Production-grade Ethereum Mempool Security
+# ============================================
+
+services:
+  # ============================================
+  # DATABASE
+  # ============================================
+  postgres:
+    image: postgres:15-alpine
+    container_name: nodescrypt_postgres
+    environment:
+      POSTGRES_USER: cp
+      POSTGRES_PASSWORD: cp
+      POSTGRES_DB: checkpoint
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U cp -d checkpoint" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # ============================================
+  # ETHEREUM STREAMER (WebSocket)
+  # ============================================
+  streamer:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.streamer
+    container_name: nodescrypt_streamer
+    environment:
+      ETH_WS: ${ETH_WS:-wss://eth.llamarpc.com}
+      ETH_HTTP: ${ETH_HTTP:-https://eth.llamarpc.com}
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: checkpoint
+      POSTGRES_USER: cp
+      POSTGRES_PASSWORD: cp
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ============================================
+  # EVM FEATURE EXTRACTOR
+  # ============================================
+  feature-extractor:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.python
+    container_name: nodescrypt_features
+    command: python features/evm_features.py
+    environment:
+      ETH_RPC_URL: ${ETH_RPC_URL:-https://eth.llamarpc.com}
+      POSTGRES_HOST: postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ============================================
+  # ML SERVICE (FastAPI)
+  # ============================================
+  ml-service:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.ml
+    container_name: nodescrypt_ml
+    ports:
+      - "8002:8002"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8002/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+  # ============================================
+  # FILTER PROXY
+  # ============================================
+  filter-proxy:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.proxy
+    container_name: nodescrypt_proxy
+    ports:
+      - "8545:8545"
+    environment:
+      UPSTREAM_RPC: ${ETH_RPC_URL:-https://eth.llamarpc.com}
+      ML_SERVICE: http://ml-service:8002
+      ENABLE_FILTERING: ${ENABLE_FILTERING:-false}
+    depends_on:
+      - ml-service
+    restart: unless-stopped
+
+  # ============================================
+  # DECISION ENGINE
+  # ============================================
+  decision-engine:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.python
+    container_name: nodescrypt_decision
+    command: python mitigation/control_loop.py
+    environment:
+      POSTGRES_HOST: postgres
+      ML_SERVICE_URL: http://ml-service:8002
+    depends_on:
+      - postgres
+      - ml-service
+    restart: unless-stopped
+
+  # ============================================
+  # METRICS EXPORTER
+  # ============================================
+  metrics-exporter:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.python
+    container_name: nodescrypt_metrics
+    command: python monitoring/metrics_exporter.py
+    ports:
+      - "9100:9100"
+    environment:
+      POSTGRES_HOST: postgres
+      ML_SERVICE_URL: http://ml-service:8002
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  # ============================================
+  # PROMETHEUS
+  # ============================================
+  prometheus:
+    image: prom/prometheus:v2.47.0
+    container_name: nodescrypt_prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus-docker.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    restart: unless-stopped
+
+  # ============================================
+  # GRAFANA
+  # ============================================
+  grafana:
+    image: grafana/grafana:10.0.0
+    container_name: nodescrypt_grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-nodescrypt}
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /var/lib/grafana/dashboards/checkpoint.json
+    volumes:
+      - ./monitoring/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./monitoring/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  prometheus_data:
+  grafana_data:
