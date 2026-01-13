@@ -11,7 +11,7 @@
 
 **Securing Bitcoin and Cryptocurrency infrastructure using advanced Reinforcement Learning and Machine Learning models.**
 
-[Live Demo](https://nodescrypt-defy26.vercel.app) • [Documentation](#features) • [Getting Started](#installation)
+[Live Demo](https://nodescrypt.pages.dev) • [Documentation](#features) • [Getting Started](#installation)
 
 </div>
 
@@ -211,3 +211,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 [⬆ Back to Top](#-nodescrypt)
 
 </div>
+
