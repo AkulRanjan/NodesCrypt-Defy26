@@ -1,0 +1,24 @@
+{
+    "shardeum": {
+        "ContractRegistry": null,
+        "SecurityAudit": null,
+        "MerkleBatchAnchor": null,
+        "PolicyRegistry": null,
+        "Governance": null,
+        "AddressBook": null,
+        "deployer": null,
+        "deployedAt": null,
+        "chainId": "8082"
+    },
+    "inco": {
+        "ContractRegistry": null,
+        "SecurityAudit": null,
+        "MerkleBatchAnchor": null,
+        "PolicyRegistry": null,
+        "Governance": null,
+        "AddressBook": null,
+        "deployer": null,
+        "deployedAt": null,
+        "chainId": "9090"
+    }
+}

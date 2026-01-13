@@ -1,0 +1,20 @@
+{
+    "shardeum": {
+        "network": "Shardeum Sphinx Testnet",
+        "chainId": 8082,
+        "contract": "NodescryptAudit",
+        "address": null,
+        "deployer": null,
+        "deployedAt": null,
+        "explorer": null
+    },
+    "inco": {
+        "network": "INCO Testnet (Gentry)",
+        "chainId": 9090,
+        "contract": "SecurityAudit",
+        "address": null,
+        "deployer": null,
+        "deployedAt": null,
+        "explorer": null
+    }
+}

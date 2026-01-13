@@ -1,0 +1,30 @@
+{
+    "name": "nodescrypt-contracts",
+    "version": "1.0.0",
+    "description": "NodesCrypt Smart Contract Deployment",
+    "scripts": {
+        "compile": "npx hardhat compile",
+        "deploy:shardeum": "npx hardhat run scripts/deploy-shardeum.js --network shardeum",
+        "deploy:inco": "npx hardhat run scripts/deploy-inco.js --network inco",
+        "deploy:all": "npm run deploy:shardeum && npm run deploy:inco",
+        "verify:shardeum": "npx hardhat verify --network shardeum",
+        "test": "npx hardhat test"
+    },
+    "dependencies": {
+        "@openzeppelin/contracts": "^5.0.0",
+        "dotenv": "^16.3.1"
+    },
+    "devDependencies": {
+        "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+        "hardhat": "^2.19.0"
+    },
+    "keywords": [
+        "nodescrypt",
+        "shardeum",
+        "inco",
+        "security",
+        "eth-india"
+    ],
+    "author": "NodesCrypt Team",
+    "license": "MIT"
+}

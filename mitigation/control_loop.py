@@ -1,6 +1,7 @@
 """
 CP5+CP6+CP7 Full Control Loop
 Integrates mitigation, audit logging, and self-monitoring.
+Includes INCO on-chain incident submission.
 """
 import sys
 import os
@@ -20,6 +21,23 @@ from monitoring.heal import SelfHealer
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(__file__)), 'rl'))
 from policy import decide_action_with_name
 
+# INCO integration (optional - only if contract deployed)
+INCO_ENABLED = os.getenv("INCO_ENABLED", "true").lower() == "true"
+inco_submitter = None
+
+if INCO_ENABLED:
+    try:
+        from audit.submit_incident import IncoSubmitter
+        inco_submitter = IncoSubmitter()
+        if inco_submitter.is_connected() and inco_submitter.contract:
+            print("[INCO] ✅ On-chain audit logging enabled")
+        else:
+            print("[INCO] ⚠️ Connected but contract not deployed yet")
+            inco_submitter = None
+    except Exception as e:
+        print(f"[INCO] ⚠️ INCO not available: {e}")
+        inco_submitter = None
+
 # Initialize all components
 engine = MitigationEngine()
 logger = IncidentLogger()
@@ -33,13 +51,18 @@ def run_full_loop(iterations=None):
     - CP2/CP3: Get state and ML scores
     - CP4: RL decides action
     - CP5: Apply mitigation
-    - CP6: Log to INCO
+    - CP6: Log to INCO (on-chain)
     - CP7: Monitor, detect drift, self-heal
     """
     print("=" * 60)
     print("[CP1-CP7] FULL AUTONOMOUS SECURITY LOOP")
     print("=" * 60)
+    if inco_submitter:
+        print(f"[INCO] Contract: {inco_submitter.contract_address}")
+        print(f"[INCO] Total on-chain incidents: {inco_submitter.get_total_incidents()}")
     print()
+    
+    inco_success_count = 0
     
     i = 0
     while iterations is None or i < iterations:
@@ -69,12 +92,30 @@ def run_full_loop(iterations=None):
         # CP5: Apply mitigation
         engine.apply(action)
         
-        # CP6: INCO audit log
+        # CP6: Local audit log
         incident_id, payload = logger.generate_incident(
             state=state, action=action, mode=engine.mode, confidence=0.95
         )
         inco_data = logger.to_inco_format(incident_id, payload)
         print(f"[CP6] 🔐 Incident: {incident_id[:12]}... Risk: {inco_data['riskScore']}")
+        
+        # CP6b: INCO on-chain submission (if enabled)
+        if inco_submitter and action > 0:  # Only log non-trivial actions
+            try:
+                result = inco_submitter.submit_incident(
+                    incident_id=incident_id,
+                    action=action,
+                    risk_score=inco_data['riskScore']
+                )
+                if result.get("status") == "success":
+                    inco_success_count += 1
+                    print(f"[INCO] ✅ Logged on-chain: {result['tx_hash'][:16]}...")
+                elif result.get("status") == "already_logged":
+                    print(f"[INCO] ℹ️ Already logged on-chain")
+                else:
+                    print(f"[INCO] ⚠️ {result.get('error', 'Unknown error')[:50]}")
+            except Exception as e:
+                print(f"[INCO] ❌ Error: {str(e)[:50]}")
         
         # CP7: Collect metrics
         reward = -state[0] * 0.01 - state[4] * 10  # Same as RL reward
@@ -117,11 +158,15 @@ def run_full_loop(iterations=None):
     print("\n" + "=" * 60)
     print("[FINAL SUMMARY]")
     print("=" * 60)
-    print(f"Incidents logged: {len(logger.get_all_incidents())}")
+    print(f"Incidents logged (local): {len(logger.get_all_incidents())}")
+    print(f"Incidents logged (INCO):  {inco_success_count}")
     print(f"Metrics collected: {metrics.summary()['samples_collected']}")
     print(f"Healing actions: {len(healer.get_healing_history())}")
     print(f"RL Frozen: {healer.is_rl_frozen()}")
+    if inco_submitter:
+        print(f"INCO total on-chain: {inco_submitter.get_total_incidents()}")
 
 
 if __name__ == "__main__":
     run_full_loop(iterations=5)
+
