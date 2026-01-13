@@ -1,30 +1,31 @@
 {
-    "name": "nodescrypt-contracts",
-    "version": "1.0.0",
-    "description": "NodesCrypt Smart Contract Deployment",
-    "scripts": {
-        "compile": "npx hardhat compile",
-        "deploy:shardeum": "npx hardhat run scripts/deploy-shardeum.js --network shardeum",
-        "deploy:inco": "npx hardhat run scripts/deploy-inco.js --network inco",
-        "deploy:all": "npm run deploy:shardeum && npm run deploy:inco",
-        "verify:shardeum": "npx hardhat verify --network shardeum",
-        "test": "npx hardhat test"
-    },
-    "dependencies": {
-        "@openzeppelin/contracts": "^5.0.0",
-        "dotenv": "^16.3.1"
-    },
-    "devDependencies": {
-        "@nomicfoundation/hardhat-toolbox": "^4.0.0",
-        "hardhat": "^2.19.0"
-    },
-    "keywords": [
-        "nodescrypt",
-        "shardeum",
-        "inco",
-        "security",
-        "eth-india"
-    ],
-    "author": "NodesCrypt Team",
-    "license": "MIT"
+  "name": "nodescrypt",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.90.1",
+    "framer-motion": "^12.26.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "socket.io-client": "^4.8.3",
+    "three": "^0.182.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@types/react": "^19.2.5",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "eslint": "^9.39.1",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "globals": "^16.5.0",
+    "vite": "^7.2.4"
+  }
 }
