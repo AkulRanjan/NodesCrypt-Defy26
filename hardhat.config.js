@@ -27,10 +27,10 @@ module.exports = {
             url: "http://127.0.0.1:8545"
         },
 
-        // Shardeum Sphinx Testnet (Validator)
+        // Shardeum Sphinx Testnet (where faucet tokens are)
         shardeum: {
-            url: process.env.SHARDEUM_RPC || "https://sphinx.shardeum.org",
-            chainId: 8082,
+            url: "https://dapps.shardeum.org",
+            chainId: 8081,
             accounts: getAccounts(),
             timeout: 60000
         },
@@ -43,12 +43,12 @@ module.exports = {
             timeout: 60000
         },
 
-        // INCO Testnet (Gentry)
+        // INCO Gentry Testnet (where faucet tokens are)
         inco: {
-            url: process.env.INCO_RPC || "https://testnet.inco.org",
-            chainId: 9090,
+            url: "https://validator.rivest.inco.org",
+            chainId: 21097,
             accounts: getAccounts(),
-            timeout: 60000
+            timeout: 120000
         }
     },
 
