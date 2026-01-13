@@ -1,4 +1,4 @@
-# 🛡️ NodesCrypt — AI-Powered Mempool Security for EVM Chains
+#  NodesCrypt — AI-Powered Mempool Security for EVM Chains
 
 <div align="center">
 
@@ -15,7 +15,7 @@
 
 ---
 
-## 🎯 The Problem
+##  The Problem
 
 Every blockchain suffers from **mempool-level attacks**:
 - **Spam Floods** — Attackers clog the network with low-value transactions
